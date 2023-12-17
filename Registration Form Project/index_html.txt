@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="keywords" content="TaskManager Pro A Robust ToDo List Application - Atish, HTML, CSS, JavaScript, TaskManager Pro A Robust ToDo List Application - Atish Kumar Sahu">
+    <meta name="description" content="TaskManager Pro A Robust ToDo List Application - Atish Kumar Sahu">
+    <meta name="author" content="Atish Kumar Sahu">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>RegistrationFrom Atish K Sahu</title>
+</head>
+<body>
+    <div class="hd">Registration Form</div>
+    <div class="hd1">
+        <p class="nm">List Items</p>
+        <div class="search">
+            <input type="text" class="srcbar" id="SRCBAR" name="searchbar" placeholder="Search...">
+        </div>
+    </div>
+    <!--------------------FORM--------------------------------->
+    <div class="form">
+        <form id="MyForm">
+            <div class="part">
+                <label class="label">First Name</label><br>
+                <input type="text" id="FN" class="FCLS" name="FirstName"><br>
+                <label class="label">Middle Name</label><br>
+                <input type="text" id="MN" class="FCLS" name="MiddleName"><br>
+                <label class="label">Last Name</label><br>
+                <input type="text" id="LN" class="FCLS" name="LastName"><br>
+
+                <label class="label">Mail Account</label><br>
+                <input type="text" id="ML" class="FCLS" name="MailAccount"><br>
+                <label class="label">Phone Number</label><br>
+                <input type="text" id="PN" class="FCLS" name="PhoneNumber"><br>
+                <label class="label">Registration Number</label><br>
+                <input type="text" id="RN" class="FCLS" name="Registration"><br>
+
+                <label class="label">Birth Date</label><br>
+                <input type="date" id="DOBT" class="FCLS"><br>
+            </div>
+            <div class="part">
+                <label class="label">City</label><br>
+                <input type="text" id="CT" class="FCLS" name="City"><br>
+                <label class="label">State</label><br>
+                <input type="text" id="ST" class="FCLS" name="State"><br>
+                <label class="label">Country</label><br>
+                <input type="text" id="CN" class="FCLS" name="Country"><br>
+
+                <label class="label">Gender</label><br>
+                <input type="radio" id="MLE" class="label1" value="Man" onclick="funcgender()">
+                <label class="label2">Male</label>
+                <input type="radio" id="FLE" class="label1" value="Woman" onclick="funcgender()">
+                <label class="label2">Female</label><br><br>
+
+                <label class="label">Status</label><br>
+                <input type="radio" id="SINGLE" class="label1" value="Single" onclick="funcstatus()">
+                <label class="label2">Single</label>
+                <input type="radio" id="MARRIED" class="label1" value="Married" onclick="funcstatus()">
+                <label class="label2">Married</label><br><br>
+
+                <label for="course" class="label">Course:</label><br>
+                <input type="checkbox" id="CHK1" class="lbl1" value="Java" onclick="course()">
+                <label for="jv" class="label2">Java</label>
+                <input type="checkbox" id="CHK2" class="lbl1" value="Java Script" onclick="course()">
+                <label for="wb" class="label2">Java Script</label><br><br>
+                <label class="label">Branch Name</label><br>
+                <select name="BRANCH" id="BRC" class="FCLS">
+                    <option hidden></option>
+                    <option value="Computer Science">Computer Science</option>
+                    <option value="Information Technology">Information Technology</option>
+                    <option value="Computer Application">Computer Application</option>
+                    <option value="Basic Computer">Basic Computer</option>
+                </select>
+            </div>
+        </form>
+        <input type="submit" value="Submit" class="sbtn" id="SUBMITFORM">
+    </div>
+    <ul id="UNLS">
+        <!-- <li class="LI">
+            <p class="PLI">
+                Atish Kumar Sahu kumarsahuatish@gmail.com 9937401932 India Male Java 2001-04-28 Computer Science
+            </p>
+            <button class="edit">Edit</button>
+            <button class="delete">Delete</button>
+        </li> -->
+    </ul>
+    <hr>
+    <script src="script.js"></script>
+</body>
+</html>

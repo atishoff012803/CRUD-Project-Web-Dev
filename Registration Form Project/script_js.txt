@@ -1,0 +1,307 @@
+const submitbutton = document.getElementById('SUBMITFORM');
+submitbutton.addEventListener("click", function (event) {
+    event.preventDefault();
+
+    let FIRSTNAME = document.getElementById('FN').value;
+    let MIDDLENAME = document.getElementById('MN').value;
+    let LASTNAME = document.getElementById('LN').value;
+    let MAILACCOUNT = document.getElementById('ML').value;
+    let PHONENUMBER = document.getElementById('PN').value;
+    let REGISTRATION = document.getElementById('RN').value;
+    let CITY = document.getElementById('CT').value;
+    let STATE = document.getElementById('ST').value;
+    let COUNTRY = document.getElementById('CN').value;
+    let BIRTH = document.getElementById('DOBT').value;
+    let BRC = document.getElementById('BRC').value;
+
+    let Object = {
+        FIRSTNAME, MIDDLENAME, LASTNAME,
+        MAILACCOUNT, PHONENUMBER, REGISTRATION,
+        CITY, STATE, COUNTRY,
+        GENDER: funcgender(), STATUS: funcstatus(), COURSE: course(),
+        BIRTH, BRC
+    }
+    console.log(Object);
+    ULLIADD(Object);
+    setTimeout(() => {
+        document.getElementById('FN').value = '';
+        document.getElementById('MN').value = '';
+        document.getElementById('LN').value = '';
+
+        document.getElementById('ML').value = '';
+        document.getElementById('PN').value = '';
+        document.getElementById('RN').value = '';
+
+        document.getElementById('CT').value = '';
+        document.getElementById('ST').value = '';
+        document.getElementById('CN').value = '';
+
+        document.getElementById('DOBT').value = '';
+        document.getElementById('BRC').value = '';
+
+        document.getElementById('MLE').checked = false;
+        document.getElementById('FLE').checked = false;
+        document.getElementById('MLE').disabled = false;
+        document.getElementById('FLE').disabled = false;
+
+        document.getElementById('SINGLE').checked = false;
+        document.getElementById('MARRIED').checked = false;
+        document.getElementById('SINGLE').disabled = false;
+        document.getElementById('MARRIED').disabled = false;
+
+        document.getElementById('CHK1').checked = false;
+        document.getElementById('CHK2').checked = false;
+
+    }, 3000)//3second
+})
+function funcgender() {
+    let gender;
+    if (document.getElementById('MLE').checked == true) {
+        gender = "Male";
+        document.getElementById('FLE').disabled = true;
+    } else if (document.getElementById('FLE').checked == true) {
+        gender = "Female";
+        document.getElementById('MLE').disabled = true;
+    }
+    return gender;
+}
+function funcstatus() {
+    let status;
+    if (document.getElementById('SINGLE').checked == true) {
+        status = "Single";
+        document.getElementById('MARRIED').disabled = true;
+    } else if (document.getElementById('MARRIED').checked == true) {
+        status = "Married";
+        document.getElementById('SINGLE').disabled = true;
+    }
+    return status;
+}
+function course() {
+    let crs
+    if (document.getElementById('CHK1').checked == true) {
+        crs = "Java";
+    } if (document.getElementById('CHK2').checked == true) {
+        crs = "Java Script";
+    } if (document.getElementById('CHK1').checked == true && document.getElementById('CHK2').checked == true) {
+        crs = "Java, Java Script"
+    }
+    return crs;
+}
+/*Data Add in LI*/
+function ULLIADD(Obj) {
+    let UL = document.getElementById('UNLS');
+    let LI = document.createElement('LI');
+    LI.classList.add('LI');
+    let PLI = document.createElement('PLI');
+    PLI.classList.add('PLI');
+    PLI.innerHTML = `${Obj.FIRSTNAME} ${Obj.MIDDLENAME} ${Obj.LASTNAME} ${Obj.MAILACCOUNT} ${Obj.PHONENUMBER} ${Obj.REGISTRATION} ${Obj.CITY} ${Obj.STATE}, ${Obj.COUNTRY} ${Obj.GENDER} ${Obj.STATUS} ${Obj.COURSE} ${Obj.BIRTH} ${Obj.BRC}`;
+
+    /*EDIT BUTTON AND EDIT OPERATION*/
+    let Editb = document.createElement('button');
+    Editb.textContent = "Edit";
+    Editb.classList.add('edit');
+    Editb.addEventListener('click', function () {
+        let email = PLI.textContent.split(' ')[3];
+        let DataString = localStorage.getItem(email);
+        let data = JSON.parse(DataString);
+        console.log("Data : ", data);
+
+        document.getElementById('FN').value = data.FIRSTNAME;
+        document.getElementById('MN').value = data.MIDDLENAME;
+        document.getElementById('LN').value = data.LASTNAME;
+
+        document.getElementById('ML').value = data.MAILACCOUNT;
+        document.getElementById('PN').value = data.PHONENUMBER;
+        document.getElementById('RN').value = data.REGISTRATION;
+
+        document.getElementById('CT').value = data.CITY;
+        document.getElementById('ST').value = data.STATE;
+        document.getElementById('CN').value = data.COUNTRY;
+
+        document.getElementById('DOBT').value = data.BIRTH;
+        document.getElementById('BRC').value = data.BRC;
+
+        if (data.GENDER === 'Male') {
+            document.getElementById('MLE').checked = true;
+            document.getElementById('FLE').checked = false;
+            setTimeout(() => {
+                document.getElementById('MLE').checked = false;
+            }, 3000);
+        } else if (data.GENDER === 'Female') {
+            document.getElementById('FLE').checked = true;
+            document.getElementById('MLE').checked = false;
+            setTimeout(() => {
+                document.getElementById('FLE').checked = false;
+            }, 3000);
+        }
+
+        if (data.STATUS === 'Single') {
+            document.getElementById('SINGLE').checked = true;
+            document.getElementById('MARRIED').checked = false;
+            setTimeout(() => {
+                document.getElementById('SINGLE').checked = false;
+            }, 3000);
+        } else if (data.STATUS === 'Married') {
+            document.getElementById('MARRIED').checked = true;
+            document.getElementById('SINGLE').checked = false;
+            setTimeout(() => {
+                document.getElementById('MARRIED').checked = false;
+            }, 3000)
+        }
+
+        if (data.COURSE === 'Java') {
+            document.getElementById('CHK1').checked = true;
+        } if (data.COURSE === 'Java Script') {
+            document.getElementById('CHK2').checked = true;
+        } if (data.COURSE === 'Java, Java Script') {
+            document.getElementById('CHK1').checked = true;
+            document.getElementById('CHK2').checked = true;
+        }
+
+        localStorage.removeItem(email);
+        UL.removeChild(LI);
+    })
+
+    /*DELETE BUTTON AND DELETE OPERATION*/
+    let Deleteb = document.createElement('button');
+    Deleteb.addEventListener('click', function (event) {
+        let listitem = event.target.parentElement;
+        let email = listitem.querySelector('.PLI').textContent.split(' ')[3];
+        localStorage.removeItem(email);
+        UL.removeChild(listitem);
+    })
+    Deleteb.textContent = "Delete";
+    Deleteb.classList.add('delete');
+
+    LI.appendChild(PLI);
+    LI.appendChild(Editb);
+    LI.appendChild(Deleteb);
+    UL.appendChild(LI);
+
+    let jsonstring = JSON.stringify(Obj);
+    localStorage.setItem(Obj.MAILACCOUNT, jsonstring);
+}
+
+/*DATA FETCH DURING REFRESH*/
+document.addEventListener("DOMContentLoaded", function () {
+    // This code will run once the DOM is fully loaded.
+
+    // Get the <ul> element where we want to display the data
+    let UL = document.getElementById('UNLS');
+
+    // Check if local storage has data
+    for (let key in localStorage) {
+        if (localStorage.hasOwnProperty(key)) {
+            let storedData = localStorage.getItem(key);
+
+            // Parse the stored data as JSON
+            let dataObject = JSON.parse(storedData);
+
+            // Create a new <li> element to display the data
+            let LI = document.createElement('LI');
+            LI.classList.add('LI');
+            let PLI = document.createElement('PLI');
+            PLI.classList.add('PLI');
+            PLI.innerHTML = `${dataObject.FIRSTNAME} ${dataObject.MIDDLENAME} ${dataObject.LASTNAME} ${dataObject.MAILACCOUNT} ${dataObject.PHONENUMBER} ${dataObject.REGISTRATION} ${dataObject.CITY} ${dataObject.STATE}, ${dataObject.COUNTRY} ${dataObject.GENDER} ${dataObject.STATUS} ${dataObject.COURSE} ${dataObject.BIRTH} ${dataObject.BRC}`;
+            let Editb = document.createElement('button');
+            Editb.textContent = "Edit";
+            Editb.classList.add('edit');
+            Editb.addEventListener('click', function () {
+                let email = PLI.textContent.split(' ')[3];
+                let DataString = localStorage.getItem(email);
+                let data = JSON.parse(DataString);
+                console.log("Data : ", data);
+
+                document.getElementById('FN').value = data.FIRSTNAME;
+                document.getElementById('MN').value = data.MIDDLENAME;
+                document.getElementById('LN').value = data.LASTNAME;
+
+                document.getElementById('ML').value = data.MAILACCOUNT;
+                document.getElementById('PN').value = data.PHONENUMBER;
+                document.getElementById('RN').value = data.REGISTRATION;
+
+                document.getElementById('CT').value = data.CITY;
+                document.getElementById('ST').value = data.STATE;
+                document.getElementById('CN').value = data.COUNTRY;
+
+                document.getElementById('DOBT').value = data.BIRTH;
+                document.getElementById('BRC').value = data.BRC;
+
+                if (data.GENDER === 'Male') {
+                    document.getElementById('MLE').checked = true;
+                    document.getElementById('FLE').checked = false;
+                    setTimeout(() => {
+                        document.getElementById('MLE').checked = false;
+                    }, 3000);
+                } else if (data.GENDER === 'Female') {
+                    document.getElementById('FLE').checked = true;
+                    document.getElementById('MLE').checked = false;
+                    setTimeout(() => {
+                        document.getElementById('FLE').checked = false;
+                    }, 3000);
+                }
+
+                if (data.STATUS === 'Single') {
+                    document.getElementById('SINGLE').checked = true;
+                    document.getElementById('MARRIED').checked = false;
+                    setTimeout(() => {
+                        document.getElementById('SINGLE').checked = false;
+                    }, 3000);
+                } else if (data.STATUS === 'Married') {
+                    document.getElementById('MARRIED').checked = true;
+                    document.getElementById('SINGLE').checked = false;
+                    setTimeout(() => {
+                        document.getElementById('MARRIED').checked = false;
+                    }, 3000)
+                }
+
+                if (data.COURSE === 'Java') {
+                    document.getElementById('CHK1').checked = true;
+                } if (data.COURSE === 'Java Script') {
+                    document.getElementById('CHK2').checked = true;
+                } if (data.COURSE === 'Java, Java Script') {
+                    document.getElementById('CHK1').checked = true;
+                    document.getElementById('CHK2').checked = true;
+                }
+                localStorage.removeItem(email);
+                UL.removeChild(LI);
+            })
+
+            /*DELETE OPERATION AND BUTTON*/
+            let Deleteb = document.createElement('button');
+            Deleteb.textContent = "Delete";
+            Deleteb.classList.add('delete');
+            Deleteb.addEventListener('click', function (event) {
+                let listitem = event.target.parentElement;
+                let email = listitem.querySelector('.PLI').textContent.split(' ')[3];
+                localStorage.removeItem(email);
+                UL.removeChild(listitem);
+            })
+
+            LI.appendChild(PLI);
+            LI.appendChild(Editb);
+            LI.appendChild(Deleteb);
+            UL.appendChild(LI);
+        }
+    }
+});
+
+/*SEARCH BAR SEARCH OPERATION*///correct one
+let filter = document.getElementById('SRCBAR');
+filter.addEventListener('keyup',filteritem);
+function filteritem(e){
+    let UL = document.getElementById('UNLS');
+    let text = e.target.value.toLowerCase();
+    let items = UL.getElementsByTagName('li');
+
+    Array.from(items).forEach(function(item){
+        let itemname = item.firstChild.textContent;
+        let itemdes = item.childNodes[1].textContent;
+
+        if(itemname.toLowerCase().indexOf(text) != -1 || itemdes.toLowerCase().indexOf(text) != -1){
+            item.style.display = 'block';
+        }else{
+            item.style.display = 'none';
+        }
+    });
+}
